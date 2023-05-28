@@ -8,6 +8,6 @@
 
 IP-адрес 158.160.104.197
 
-Backend ...loading
+Backend https://api.cinemaworld.nomoredomains.rocks/
 
 Frontend ...loading
