@@ -1,7 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
+const cors = require('cors');
 const { errors } = require('celebrate');
+const options = require('./utils/cors-options');
+const limiter = require('./middlewares/ratelimiter');
 const { createUserJoiValidation, loginJoiValidation } = require('./middlewares/userJoiValidation');
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorhandler');
@@ -10,12 +14,16 @@ const DataNotFoundError = require('./errors/DataNotFoundError');
 const usersRouter = require('./routes/users');
 const moviesRouter = require('./routes/movies');
 const { createUser, login } = require('./controllers/users');
-const { PORT, DB_ADDRESS } = require('./config');
+const { PORT, DB_ADDRESS } = require('./utils/config');
 
 mongoose.set('strictQuery', false);
 mongoose.connect(DB_ADDRESS);
 
 const app = express();
+
+app.use('*', cors(options));
+app.use(helmet());
+app.use(limiter);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

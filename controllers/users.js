@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET, NODE_ENV } = require('../config');
+const { JWT_SECRET, NODE_ENV } = require('../utils/config');
 const User = require('../models/user');
 const DataNotFoundError = require('../errors/DataNotFoundError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
