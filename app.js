@@ -23,22 +23,23 @@ const app = express();
 
 app.use('*', cors(options));
 app.use(helmet());
-app.use(limiter);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
+app.use(limiter);
 
 app.post('/signup', createUserJoiValidation, createUser);
 app.post('/signin', loginJoiValidation, login);
 app.use('/users', auth, usersRouter);
 app.use('/movies', auth, moviesRouter);
 
-app.use(errorLogger);
-app.use(errors());
-
 app.use((req, res, next) => next(new DataNotFoundError('Данной страницы не существует')));
+
+app.use(errorLogger);
+
+app.use(errors());
 app.use(errorHandler);
 
 app.listen(PORT, () => {
