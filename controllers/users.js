@@ -4,7 +4,7 @@ const { JWT_SECRET, NODE_ENV } = require('../utils/config');
 const User = require('../models/user');
 const DataNotFoundError = require('../errors/DataNotFoundError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
-const { OK, CREATED } = require('../utils/constants');
+const { OK } = require('../utils/constants');
 
 // POST /signup — создаёт пользователя (регистрация)
 module.exports.createUser = (req, res, next) => {
@@ -16,11 +16,19 @@ module.exports.createUser = (req, res, next) => {
     .then((hash) => User.create({
       email, password: hash, name,
     }))
-    .then((user) => res.status(CREATED).send({
-      _id: user._id,
-      email: user.email,
-      name: user.name,
-    }))
+    .then((user) => {
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        { expiresIn: '7d' },
+      );
+      res.send({
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        token,
+      });
+    })
     .catch(next);
 };
 
