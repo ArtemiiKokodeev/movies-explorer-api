@@ -1,8 +1,8 @@
 const options = {
   origin: [
     'http://localhost:3001',
-    // 'https://instagram-killer.nomoredomains.monster',
-    // 'http://instagram-killer.nomoredomains.monster',
+    'https://cinemaworld.nomoredomains.rocks',
+    'http://cinemaworld.nomoredomains.rocks',
     'https://artemiikokodeev.github.io',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],

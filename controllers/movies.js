@@ -46,7 +46,7 @@ module.exports.removeSavedMovie = (req, res, next) => {
         throw new ForbiddenError('Нет доступа к удалению карточки');
       }
       Movie.deleteOne(movie)
-        .then(() => res.status(OK).send({ movie }))
+        .then(() => res.status(OK).send(movie))
         .catch(next);
     })
     .catch(next);
